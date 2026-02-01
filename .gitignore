@@ -1,7 +1,46 @@
+# Node modulok (soha nem kell feltölteni)
 node_modules/
-.env
+
+# Logok
+logs/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
+
+# OS fájlok
 .DS_Store
 Thumbs.db
+
+# Env fájlok
+.env
+.env.local
+.env.*.local
+
+# Build / dist / temp mappák
+dist/
+build/
+tmp/
+temp/
+out/
+
+# IDE / editor fájlok
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Frontend specifikus (ha React/Vue/Angular)
+public/build/
+.cache/
+.next/
+.nuxt/
+*.tsbuildinfo
+
+# MacOS / Windows trash
+*.swp
+*.swo
+
+# Prisma (ha szükséges, de a migrációk jöhetnek repo-ba)
+prisma/migrations/
