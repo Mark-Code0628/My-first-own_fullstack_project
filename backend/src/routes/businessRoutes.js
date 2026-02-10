@@ -1,29 +1,28 @@
 import express from 'express';
-import prisma from '../prismaClient.js';
+import { requireAuth } from '../middleware/authMiddleware.js';
+import {
+  createCalendar,
+  createService,
+  getMyProfile,
+  getServicesBySlug,
+  listMyServices,
+} from '../controllers/businessController.js';
 
 const router = express.Router();
 
-// GET all services
-router.get('/services', async (req, res, next) => {
-  try {
-    const services = await prisma.service.findMany();
-    res.json(services);
-  } catch (err) {
-    next(err);
-  }
+router.get('/health', (req, res) => {
+  res.json({ status: 'business routes ok' });
 });
 
-// POST create service (admin)
-router.post('/services', async (req, res, next) => {
-  try {
-    const { name, durationMinutes, price } = req.body;
-    const service = await prisma.service.create({
-      data: { name, durationMinutes, price },
-    });
-    res.status(201).json(service);
-  } catch (err) {
-    next(err);
-  }
-});
+// Public: services by calendar slug
+router.get('/calendar/:slug/services', getServicesBySlug);
+
+// Vendor: profile + calendar
+router.get('/me', requireAuth, getMyProfile);
+router.post('/calendar', requireAuth, createCalendar);
+
+// Vendor: services
+router.get('/services', requireAuth, listMyServices);
+router.post('/services', requireAuth, createService);
 
 export default router;
